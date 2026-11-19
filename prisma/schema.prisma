@@ -1,0 +1,51 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Song {
+  id        String         @id @default(cuid())
+  title     String
+  artist    String
+  album     String
+  duration  Int            // in seconds
+  audioUrl  String
+  coverUrl  String
+  category  String         @default("Pop")
+  plays     Int            @default(0)
+  createdAt DateTime       @default(now())
+  playlists PlaylistSong[]
+  likes     LikedSong[]
+}
+
+model Playlist {
+  id          String         @id @default(cuid())
+  name        String
+  description String?
+  coverUrl    String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  songs       PlaylistSong[]
+}
+
+model PlaylistSong {
+  id         String   @id @default(cuid())
+  playlistId String
+  songId     String
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  song       Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
+  addedAt    DateTime @default(now())
+
+  @@unique([playlistId, songId])
+}
+
+model LikedSong {
+  id      String   @id @default(cuid())
+  songId  String   @unique
+  song    Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
+  likedAt DateTime @default(now())
+}
