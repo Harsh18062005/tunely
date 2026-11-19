@@ -58,6 +58,12 @@ Tunely comes pre-seeded with full-length complete audio tracks across trending c
 
 ## 🚀 Quick Start Guide
 
+### ⚡ One-Click Run (Windows)
+Simply double-click **`launcher.bat`** in the project folder! It will automatically check dependencies, start the server, and open Tunely in your default web browser at `http://localhost:3000`.
+
+---
+
+### Manual Setup
 ### Prerequisites
 - Node.js (v18 or newer)
 - npm or pnpm
